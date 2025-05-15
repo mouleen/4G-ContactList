@@ -7,6 +7,7 @@ import { getContacts,createContact } from "../components/services/api";
 
 
 const Contact = () => {
+  const { store, dispatch } = useGlobalReducer()
   const [contactList,setContactList]=useState([])
 
   const handleCreateContact = async () => {
@@ -19,9 +20,11 @@ const Contact = () => {
     })
   }
   useEffect(()=>{
-    const contacts = async (agenda) => {
+      const contacts = async (agenda) => {
       const contactData = await getContacts(agenda)
-      setContactList(contactData)
+
+      dispatch({type:"get_contacts",payload: contactData})
+      //setContactList(contactData)
     }
     contacts("agenda_jg"); //.then((data)=>console.log(data));
 
@@ -32,7 +35,8 @@ const Contact = () => {
     <>
     <h1></h1>
     <ul>
-    {contactList.map((contact)=>(
+    {
+    store.contacts.map((contact)=>(
       <li key={contact.id}>
           <ContactCard name={contact.name} phone={contact.phone} /> 
       </li>
