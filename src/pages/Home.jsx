@@ -1,4 +1,4 @@
-import rigoImageUrl from "../assets/img/rigo-baby.jpg";
+import AssetLogo from "../assets/img/IsoLogo-github.png";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 
 export const Home = () => {
@@ -7,9 +7,9 @@ export const Home = () => {
 
 	return (
 		<div className="text-center mt-5">
-			<h1>Hello Rigo!!</h1>
+			<h3 className=" display-7 shadow-lg bg-dark text-info">BE YOUR OWN BYTES</h3>
 			<p>
-				<img src={rigoImageUrl} />
+				<img className="w-25" src={AssetLogo} />
 			</p>
 		</div>
 	);
