@@ -45,7 +45,7 @@ const Contact = () => {
     {
     store.contacts.map((contact)=>(
       <li key={contact.id}>
-          <ContactCard name={contact.name} phone={contact.phone} /> 
+          <ContactCard name={contact.name} phone={contact.phone} email={contact.email} address={contact.address} /> 
       </li>
     ))}
     </ul>
