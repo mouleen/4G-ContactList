@@ -15,7 +15,7 @@ export const Navbar = () => {
 					<Link to="/contact">
 						<button className="btn btn-outline-success me-2 shadow-lg">Contactos</button>
 					</Link>
-					<Link to="/addContact">
+					<Link to="/addcontact">
 						<button className="btn btn-outline-success me-2 shadow-lg">Agregar contacto</button>
 					</Link>
 				</div>

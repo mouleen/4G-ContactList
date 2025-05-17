@@ -2,7 +2,7 @@ const apiBaseUrl = "https://playground.4geeks.com/contact"
 
 // servicio para crear un nuevo contacto
 export const createContact = async (agenda,bodyData) => {
-
+    
     const createUser = await fetch(apiBaseUrl + "/agendas/" + agenda ,
         {
             method:"POST",
@@ -11,7 +11,6 @@ export const createContact = async (agenda,bodyData) => {
             }
         }
     );
-
 
     const newUser = await fetch(apiBaseUrl + "/agendas/" + agenda + "/contacts",
         {
@@ -24,6 +23,7 @@ export const createContact = async (agenda,bodyData) => {
     );
     const response = await newUser.json();
     return response;
+
 }
 
 //obtener el listado de contactos

@@ -17,7 +17,7 @@ const Contact = () => {
         "name": "Tito",
         "phone":"Scroffa",
         "email": "jose@gmail.com",
-        "address": "Calle Lapacho",
+        "address": "Calle Lapacho"
       });
 
     const contactData = await getContacts(user);
