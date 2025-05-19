@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import useGlobalReducer from "../hooks/useGlobalReducer";  // Custom hook for accessing the global state.
 import ContactCard from "./ContactCard";
 import { useEffect, useState } from "react";
-import { getContacts,createContact } from "../services/api";
+import { deleteContact,getContacts,createContact } from "../services/api";
 
 
 const Contact = () => {
@@ -25,12 +25,21 @@ const Contact = () => {
     dispatch({type:"get_contacts",payload: contactData});
     //setContactList(contactData);
   }
-  const handleDelete = (contactId)=> {
+  const handleDelete = async (contactId)=> {
 
     // lo deje borrando solo a nivel visual no lo borra de la api. 
     // TODO: Crear y metodo de delete en los servicios y ocuparlo aca para borrar el elemento
-    const listaFilter = store.contacts.filter((item,idx)=> item.id !== contactId );
-    dispatch({type:"get_contacts",payload: listaFilter});
+    deleteContact(user,contactId);
+    
+    // simulo el borrado mientras se borra
+    //const listaFilter = store.contacts.filter((item,idx)=> item.id !== contactId );
+    //dispatch({type:"get_contacts",payload: listaFilter});
+    
+    const contactData = await getContacts(user);
+    dispatch({type:"get_contacts",payload: await contactData});
+    
+    //const listaFilter = store.contacts.filter((item,idx)=> item.id !== contactId );
+    //dispatch({type:"get_contacts",payload: listaFilter});
 		//console.log("Eliminar elemento");
 	}
 
@@ -63,7 +72,7 @@ const Contact = () => {
       </li>
     ))}
     </ul>
-    <button onClick={()=> handleCreateContact()}> Crear Contacto</button>
+    <button onClick={()=> handleCreateContact()}> Generar un Contacto Demo</button>
     </>
   )
 };

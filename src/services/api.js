@@ -42,3 +42,24 @@ export const getContacts = async (agenda) => {
     const contactos = data.contacts;
     return contactos; //devolvemos el array de contactos
 }
+
+
+
+
+export const deleteContact = async (agenda,contactId) => {
+    
+// generamos la url con el id https://playground.4geeks.com/contact/agendas/codemind_bytes/contacts/66
+
+    const deleteUser = await fetch(apiBaseUrl + "/agendas/" + agenda + "/contacts/"+ contactId,
+        {
+            method:"DELETE",
+            headers:{
+                "content-type": "application/json"
+            }
+        }
+    );
+    const response = await deleteUser.json();
+    return response;
+
+}
+
