@@ -10,6 +10,7 @@ const Contact = () => {
   const { store, dispatch } = useGlobalReducer()
   const [contactList,setContactList]=useState([])
   const [user,setUser]=useState(["codemind_bytes"])
+  const [flagDelete,setFlagDelete] = useState(null);
 
   const handleCreateContact = async () => {
     
@@ -24,6 +25,14 @@ const Contact = () => {
     dispatch({type:"get_contacts",payload: contactData});
     //setContactList(contactData);
   }
+  const handleDelete = (contactId)=> {
+
+    // lo deje borrando solo a nivel visual no lo borra de la api. 
+    // TODO: Crear y metodo de delete en los servicios y ocuparlo aca para borrar el elemento
+    const listaFilter = store.contacts.filter((item,idx)=> item.id !== contactId );
+    dispatch({type:"get_contacts",payload: listaFilter});
+		//console.log("Eliminar elemento");
+	}
 
   useEffect(()=>{
     // Creamos contacto para evitar errores por ahora
@@ -44,8 +53,13 @@ const Contact = () => {
     <ul>
     {
     store.contacts.map((contact)=>(
-      <li key={contact.id}>
+      <li key={contact.id}
+          className="d-flex justify-between py-2 px-5 w-100 border-bottom border-1 position-relative bg-light" 
+          onMouseOver={()=>(setFlagDelete(contact.id))}
+          onMouseLeave={()=>(setFlagDelete(null))}
+      >
           <ContactCard name={contact.name} phone={contact.phone} email={contact.email} address={contact.address} /> 
+          { flagDelete === contact.id && <small className="mx-3 text-end position-absolute top-50 end-0 translate-middle-y" onClick={()=>(handleDelete(contact.id))}> x </small>}
       </li>
     ))}
     </ul>

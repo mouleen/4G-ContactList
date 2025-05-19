@@ -15,8 +15,6 @@ export const AddContact = () => {
   const [ user,setUser ]=useState(["codemind_bytes"])
   const navigate = useNavigate();
   
-  // { name: "Tito", phone: "Scroffa", email: "jose@gmail.com", address: "Calle Lapacho" }
-  //{ name: "Tito", phone: "Scroffa", email: "jose@gmail.com", address: "Calle Lapacho" }
   
   const handleCreateContact = async  () => {
        await createContact(user,{
@@ -25,14 +23,9 @@ export const AddContact = () => {
           "email": email,
           "address": address
         });
-       /* setPhone("");
-        setPhone("");
-        setPhone("");
-        setPhone("");*/
         const contactData = await getContacts(user);
         dispatch({type:"get_contacts",payload: contactData});
         navigate("/contact");
-      //setContactList(contactData);
     }
 
 
