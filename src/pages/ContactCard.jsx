@@ -15,10 +15,11 @@ const ContactCard = ({name,phone,email,address}) => {
                   <div class="col-md-7 col-sm-7">
                     <h5><a href="#" class="profile-link">{name}</a></h5>
                     <p>{phone}</p>
-                    <p class="text-muted">{email}</p>
+                    <p class="btn btn-primary pull-right">{address}</p>
                   </div>
                   <div class="col-md-3 col-sm-3">
-                    <button class="btn btn-primary pull-right">{address}</button>
+                     <p class="text-muted">{email}</p>
+                    
                   </div>
                 </div>
               </div>

@@ -1,5 +1,5 @@
 // Import necessary components from react-router-dom and other parts of the application.
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import useGlobalReducer from "../hooks/useGlobalReducer";  // Custom hook for accessing the global state.
 import ContactCard from "./ContactCard";
 import { useEffect, useState } from "react";
@@ -11,7 +11,8 @@ const Contact = () => {
   const [contactList,setContactList]=useState([])
   const [user,setUser]=useState(["codemind_bytes"])
   const [flagDelete,setFlagDelete] = useState(null);
-
+  const navigate = useNavigate();
+  
   const handleCreateContact = async () => {
     
     await createContact(user,{
@@ -43,6 +44,26 @@ const Contact = () => {
 		//console.log("Eliminar elemento");
 	}
 
+ const handleUpdate = async (contactId)=> {
+
+    // lo deje borrando solo a nivel visual no lo borra de la api. 
+    // TODO: Crear y metodo de delete en los servicios y ocuparlo aca para borrar el elemento
+    //deleteContact(user,contactId);
+    alert('Ir a Actualizacion de contacto');
+    // simulo el borrado mientras se borra
+    //const listaFilter = store.contacts.filter((item,idx)=> item.id !== contactId );
+    //dispatch({type:"get_contacts",payload: listaFilter});
+    
+    const contactData = await getContacts(user);
+    dispatch({type:"get_contacts",payload: await contactData});
+    
+    //const listaFilter = store.contacts.filter((item,idx)=> item.id !== contactId );
+    //dispatch({type:"get_contacts",payload: listaFilter});
+		//console.log("Eliminar elemento");
+	}
+
+
+
   useEffect(()=>{
     // Creamos contacto para evitar errores por ahora
     const contacts = async (agenda) => {
@@ -59,6 +80,12 @@ const Contact = () => {
   return (
     <>
     <h1></h1>
+    <div class="box bg-secondary sticky-top mt-5">
+      <button onClick={()=> navigate('/')} className="btn btn-secondary float-right rounded-pill" > <i class="fa-solid fa-house-chimney"></i> </button>
+      <button onClick={()=> handleCreateContact()} className="btn btn-warning float-right rounded-pill" data-toggle="tooltip" data-placement="bottom" title="Generar un Contacto Demo" > <i class="fa-solid fa-wand-sparkles mx-2"></i><i class="fa-solid fa-id-card  mx-2"></i><i class="fa-solid fa-plus  mx-2"></i></button>
+      <button onClick={()=> scrollTo(top)} className="btn btn-secondary float-right rounded-pill  px-5 mx-5 text-light" data-toggle="tooltip" data-placement="bottom" title="Navegar al inicio"> <i class="fa-regular fa-square-caret-up tooltip" ></i></button>
+      <div style={{ clear: 'both'}}></div>
+    </div>
     <ul>
     {
     store.contacts.map((contact)=>(
@@ -69,11 +96,13 @@ const Contact = () => {
       >
           <ContactCard name={contact.name} phone={contact.phone} email={contact.email} address={contact.address} /> 
           { flagDelete === contact.id && <small className="mx-3 text-end position-absolute top-50 end-0 translate-middle-y" onClick={()=>(handleDelete(contact.id))}> x </small>}
+          { flagDelete === contact.id && <small className="mx-3 text-end position-absolute top-50 start-50 mr-5 translate-middle-y" onClick={()=>(handleUpdate(contact.id))}> <i class="fa-regular fa-pen-to-square"></i> </small>}
       </li>
     ))}
     </ul>
-    <button onClick={()=> handleCreateContact()}> Generar un Contacto Demo</button>
+    
     </>
   )
 };
 export default Contact;
+

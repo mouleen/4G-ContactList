@@ -1,9 +1,15 @@
 import AssetLogo from "../assets/img/IsoLogo-github.png";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export const Home = () => {
-
-  const {store, dispatch} =useGlobalReducer()
+	const navigate = useNavigate();
+	const {store, dispatch} =useGlobalReducer()
+		useEffect(()=>{
+			const goToHomePage = () => navigate('/contact');
+			goToHomePage(); 
+		},[])
 
 	return (
 		<div className="text-center mt-5">

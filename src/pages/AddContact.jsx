@@ -1,7 +1,7 @@
 // Import necessary components from react-router-dom and other parts of the application.
 import { Link,useNavigate } from "react-router-dom";
 import useGlobalReducer from "../hooks/useGlobalReducer";  // Custom hook for accessing the global state.
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getContacts,createContact } from "../services/api";
 
 
@@ -12,11 +12,13 @@ export const AddContact = () => {
   const [ email, setEmail] = useState([""])
   const [ address, setAddress] = useState([""])
   const [ phone, setPhone] = useState([""])
+  const [ validForm, setValidForm] = useState(false)
   const [ user,setUser ]=useState(["codemind_bytes"])
   const navigate = useNavigate();
   
   
   const handleCreateContact = async  () => {
+      if( !name.length === 0  || !phone.length === 0 || !email.length === 0 || !address.length=== 0 ) setValidForm(true);
        await createContact(user,{
           "name": name,
           "phone": phone,
@@ -27,10 +29,18 @@ export const AddContact = () => {
         dispatch({type:"get_contacts",payload: contactData});
         navigate("/contact");
     }
-
+  useEffect(()=>{
+    if( name.length > 0  || !phone.length > 0 || !email.length > 0 || !address.length > 0 ) setValidForm(true);
+  },[]);
 
   return (
-  <div className="container">
+  <>
+  <div className="box bg-secondary sticky-top">
+    <button className="btn btn-secondary float-right rounded-pill" onClick={()=> navigate('/')}> <i className="fa-solid fa-house-chimney"></i> </button>
+    <button className="btn btn-secondary float-right rounded-pill" onClick={()=> navigate('/contact')}> <i className="fa-solid fa-address-book"></i> </button>
+    <div style={{ clear: 'both'}}></div>
+  </div>
+  <div className="container my-5">
       <form>
         <div className="form-group">
           <label htmlFor="emailId">Email address</label>
@@ -74,12 +84,10 @@ export const AddContact = () => {
           />
         </div>
       </form>
-      <button onClick={()=> handleCreateContact()}> Crear Contacto</button>
+      <button className="btn btn-secondary float-right rounded-pill my-3 mx-3 w-100" onClick={()=> handleCreateContact()}> Crear Contacto</button>
       <br />
-      <Link to="/">
-        <button className="btn btn-primary">Back home</button>
-      </Link>
     </div>
+  </>
   )
 };
 //export default addContact;
