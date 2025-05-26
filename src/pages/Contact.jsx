@@ -11,6 +11,7 @@ const Contact = () => {
   const [contactList,setContactList]=useState([])
   const [user,setUser]=useState(["codemind_bytes"])
   const [flagDelete,setFlagDelete] = useState(null);
+  const [scrollButton,setScrollButton] = useState(false);
   const navigate = useNavigate();
   
   const handleCreateContact = async () => {
@@ -61,6 +62,10 @@ const Contact = () => {
     //dispatch({type:"get_contacts",payload: listaFilter});
 		//console.log("Eliminar elemento");
 	}
+ const handleScrollButton =  (idx)=> {
+
+    (idx > 2) ? setScrollButton(true): setScrollButton(false) ;
+	}
 
 
 
@@ -83,16 +88,17 @@ const Contact = () => {
     <div class="box bg-secondary sticky-top mt-5">
       <button onClick={()=> navigate('/')} className="btn btn-secondary float-right rounded-pill" > <i class="fa-solid fa-house-chimney"></i> </button>
       <button onClick={()=> handleCreateContact()} className="btn btn-warning float-right rounded-pill" data-toggle="tooltip" data-placement="bottom" title="Generar un Contacto Demo" > <i class="fa-solid fa-wand-sparkles mx-2"></i><i class="fa-solid fa-id-card  mx-2"></i><i class="fa-solid fa-plus  mx-2"></i></button>
-      <button onClick={()=> scrollTo(top)} className="btn btn-secondary float-right rounded-pill  px-5 mx-5 text-light" data-toggle="tooltip" data-placement="bottom" title="Navegar al inicio"> <i class="fa-regular fa-square-caret-up tooltip" ></i></button>
+      {(scrollButton)? ( <button onClick={()=> scrollTo(top)} className="btn btn-secondary float-right rounded-pill  px-5 mx-5 text-light" data-toggle="tooltip" data-placement="bottom" title="Navegar al inicio"> <i class="fa-regular fa-square-caret-up" ></i> Inicio </button> ):(<></>)}
       <div style={{ clear: 'both'}}></div>
     </div>
     <ul>
     {
-    store.contacts.map((contact)=>(
+    store.contacts.map((contact,idx)=>(
       <li key={contact.id}
           className="d-flex justify-between py-2 px-5 w-100 border-bottom border-1 position-relative bg-light" 
           onMouseOver={()=>(setFlagDelete(contact.id))}
           onMouseLeave={()=>(setFlagDelete(null))}
+          onMouseEnter={()=>(handleScrollButton(idx))}
       >
           <ContactCard name={contact.name} phone={contact.phone} email={contact.email} address={contact.address} /> 
           { flagDelete === contact.id && <small className="mx-3 text-end position-absolute top-50 end-0 translate-middle-y" onClick={()=>(handleDelete(contact.id))}> x </small>}

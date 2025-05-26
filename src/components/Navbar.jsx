@@ -1,8 +1,20 @@
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+
+
 
 export const Navbar = () => {
+	const [isHome,setIsHome] = useState(true);
+	  let location = useLocation();
 
-
+useEffect(()=>{
+	const updateMenu = async ()=>{ 
+		//( window.location?.pathname )? console.log('ok') : console.log('nok') ; 
+		await setIsHome((location.pathname === "/contact")? true : false);
+		console.log(location.pathname);
+	}
+	updateMenu();
+},[location,isHome]);
 
 	return (
 		<nav className="navbar bg-body-tertiary mb-5">
@@ -13,9 +25,9 @@ export const Navbar = () => {
 				</Link>
 				<div className="ml-auto ">
 					<Link to="/addcontact">
-						<button className="btn btn-outline-success me-2 shadow-lg">Agregar contacto</button>
-					</Link>
-				</div>
+						 { ( isHome ) ? <button className="btn btn-outline-success me-2 shadow-lg">Agregar contacto</button> : <></> }
+					</Link> 
+				</div> 
 			</div>
 		</nav>
 	);
