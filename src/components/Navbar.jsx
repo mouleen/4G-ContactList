@@ -9,9 +9,7 @@ export const Navbar = () => {
 
 useEffect(()=>{
 	const updateMenu = async ()=>{ 
-		//( window.location?.pathname )? console.log('ok') : console.log('nok') ; 
 		await setIsHome((location.pathname === "/contact")? true : false);
-		console.log(location.pathname);
 	}
 	updateMenu();
 },[location,isHome]);

@@ -1,8 +1,7 @@
 const apiBaseUrl = "https://playground.4geeks.com/contact"
 
-// servicio para crear un nuevo contacto
+// Servicio API Crear Contacto
 export const createContact = async (agenda,bodyData) => {
-    
     const createUser = await fetch(apiBaseUrl + "/agendas/" + agenda ,
         {
             method:"POST",
@@ -11,7 +10,6 @@ export const createContact = async (agenda,bodyData) => {
             }
         }
     );
-
     const newUser = await fetch(apiBaseUrl + "/agendas/" + agenda + "/contacts",
         {
             method:"POST",
@@ -26,9 +24,32 @@ export const createContact = async (agenda,bodyData) => {
 
 }
 
-//obtener el listado de contactos
-export const getContacts = async (agenda) => {
+// Servicio API Actualizar Contacto 
+export const updateContact = async (agenda,bodyData,id) => {    
+    const createUser = await fetch(apiBaseUrl + "/agendas/" + agenda ,
+        {
+            method:"POST",
+            headers:{
+                "content-type": "application/json"
+            }
+        }
+    );
+    const newUser = await fetch(apiBaseUrl + "/agendas/" + agenda + "/contacts/"+ id,
+        {
+            method:"PUT",
+            body: JSON.stringify(bodyData),
+            headers:{
+                "content-type": "application/json"
+            }
+        }
+    );
+    const response = await newUser.json();
+    return response;
+}
 
+
+// Servicio API Obtener el listado de contactos
+export const getContacts = async (agenda) => {
     const createUser = await fetch(apiBaseUrl + "/agendas/" + agenda ,
         {
             method:"POST",
@@ -43,13 +64,8 @@ export const getContacts = async (agenda) => {
     return contactos; //devolvemos el array de contactos
 }
 
-
-
-
+// Servicio API Borrar Contacto 
 export const deleteContact = async (agenda,contactId) => {
-    
-// generamos la url con el id https://playground.4geeks.com/contact/agendas/codemind_bytes/contacts/66
-
     const deleteUser = await fetch(apiBaseUrl + "/agendas/" + agenda + "/contacts/"+ contactId,
         {
             method:"DELETE",
@@ -58,8 +74,13 @@ export const deleteContact = async (agenda,contactId) => {
             }
         }
     );
-    const response = await deleteUser.json();
+    const response = await deleteUser;
     return response;
+}
 
+// Servicio API Obtener Contacto 
+export const getContact = async (agenda,contactId) => {
+    const data = await getContacts(agenda);
+    return data.filter((item) => item.id == contactId ); //devolvemos el array de contactos
 }
 
